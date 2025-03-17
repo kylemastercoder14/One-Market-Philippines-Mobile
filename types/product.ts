@@ -27,6 +27,32 @@ export interface Product {
   discountId?: string;
 
   sellerProductVariants: SellerProductVariant[];
+
+  /** Seller details */
+  seller: Seller;
+}
+
+export interface Seller {
+  id: string;
+  name: string;
+  email: string;
+  image?: string | null;
+  type: string;
+  dti?: string;
+  bir?: string;
+  barangayBusinessPermit?: string;
+  identity?: string;
+  identityType?: string;
+  sec?: string;
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  isPremium: boolean;
+  businessType: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  categorySlug: string;
 }
 
 export interface SellerProductVariant {

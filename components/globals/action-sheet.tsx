@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Actionsheet,
@@ -24,7 +23,7 @@ const ActionSheetComponent = ({
         <ActionsheetDragIndicatorWrapper>
           <ActionsheetDragIndicator />
         </ActionsheetDragIndicatorWrapper>
-		{children}
+        {children}
       </ActionsheetContent>
     </Actionsheet>
   );
