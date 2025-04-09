@@ -30,11 +30,13 @@ import ShieldCheck from "react-native-vector-icons/Ionicons";
 import Question from "react-native-vector-icons/EvilIcons";
 import ActionSheetComponent from "@/components/globals/action-sheet";
 import ShareAction from "@/components/globals/share-action";
+import VariantAction from "@/components/globals/variant-action";
 
 const ProductScreen = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const [isOpenShare, setIsOpenShare] = React.useState(false);
+  const [isVariantOpen, setIsVariantOpen] = React.useState(false);
   const [product, setProduct] = React.useState<Product | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [activeIndex, setActiveIndex] = React.useState<number>(0);
@@ -90,6 +92,12 @@ const ProductScreen = () => {
           name={product?.name ?? ""}
           id={product?.id ?? ""}
         />
+      </ActionSheetComponent>
+      <ActionSheetComponent
+        isOpen={isVariantOpen}
+        onClose={() => setIsVariantOpen(false)}
+      >
+        <VariantAction product={product} />
       </ActionSheetComponent>
       <SafeAreaView className="flex-1 bg-[#f5f5f5]">
         <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
@@ -211,7 +219,10 @@ const ProductScreen = () => {
                       ? `₱${product.price?.toFixed(2) ?? "0.00"}`
                       : priceWithVariants}
                   </Text>
-                  <TouchableOpacity className="border-2 mt-2 rounded-full flex-row items-center justify-between px-3 py-2">
+                  <TouchableOpacity
+                    onPress={() => setIsVariantOpen(true)}
+                    className="border-2 mt-2 rounded-full flex-row items-center justify-between px-3 py-2"
+                  >
                     <Text>
                       {product.sellerProductVariants
                         .map(
@@ -343,7 +354,10 @@ const ProductScreen = () => {
         {/* Fixed Bottom Bar */}
         <View className="absolute bottom-0 left-0 right-0 bg-white py-3 px-4 flex-row justify-between items-center border-t border-gray-300">
           {/* Add to Cart Button */}
-          <TouchableOpacity className="bg-[#8D021F] w-full px-6 py-3 rounded-full">
+          <TouchableOpacity
+            onPress={() => setIsVariantOpen(true)}
+            className="bg-[#8D021F] w-full px-6 py-3 rounded-full"
+          >
             <Text className="text-white font-semibold text-center">
               Add to Cart
             </Text>

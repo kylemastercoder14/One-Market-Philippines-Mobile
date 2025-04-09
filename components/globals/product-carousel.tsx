@@ -1,11 +1,13 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, FlatList, Dimensions } from "react-native";
 import React from "react";
-import MasonryList from "@react-native-seoul/masonry-list";
-import ProductCard from "./product-card";
+import ProductCardCarousel from "./product-card-carousel";
 import axios from "axios";
 import { Product } from "@/types/product";
 
-const ProductList = ({
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const CARD_WIDTH = SCREEN_WIDTH / 3 - 20;
+
+const ProductCarousel = ({
   categorySlug,
   subCategorySlug,
 }: {
@@ -19,11 +21,7 @@ const ProductList = ({
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        let url = `https://onemp-api.onrender.com/api/v1/products/categories/${categorySlug}`;
-
-        if (subCategorySlug) {
-          url += `/sub-categories/${subCategorySlug}`;
-        }
+        let url = `https://onemp-api.onrender.com/api/v1/products`;
 
         const response = await axios.get(url);
         setProducts(response.data);
@@ -38,7 +36,7 @@ const ProductList = ({
   }, [categorySlug, subCategorySlug]);
 
   return (
-    <View className="mt-10 mx-4 space-y-3 px-2">
+    <View className="mt-4 space-y-3">
       {loading ? (
         <Text className="text-center text-gray-500">Loading products...</Text>
       ) : products.length === 0 ? (
@@ -55,21 +53,24 @@ const ProductList = ({
           </Text>
         </View>
       ) : (
-        <View>
-          <MasonryList
-            data={products}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            onEndReachedThreshold={0.1}
-            renderItem={({ item, i }: { item: unknown; i: number }) => (
-              <ProductCard product={item as Product} index={i} />
-            )}
-          />
-        </View>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={products}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => (
+            <ProductCardCarousel index={index} product={item} />
+          )}
+          contentContainerStyle={{
+            alignItems: "center",
+          }}
+          snapToAlignment="center"
+          decelerationRate="fast"
+          snapToInterval={CARD_WIDTH + 10}
+        />
       )}
     </View>
   );
 };
 
-export default ProductList;
+export default ProductCarousel;

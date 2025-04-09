@@ -1,16 +1,9 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
-import {
-  LayoutDashboard,
-  ShoppingCart,
-  TextSearch,
-  User,
-} from "lucide-react-native";
-import { useSelector } from 'react-redux';
-import { RootState } from '@/helpers/cart-store';
+import { BikeIcon, History, User, Wallet } from "lucide-react-native";
 
-function TabIcon({ focused, Icon, title }: any) {
+function TabIcon({ focused, Icon, title, noFill }: any) {
   return (
     <View
       className={`flex flex-row w-full flex-1 min-w-[100px] min-h-14 mt-4 justify-center items-center overflow-hidden`}
@@ -18,7 +11,7 @@ function TabIcon({ focused, Icon, title }: any) {
       <Icon
         size={20}
         color={focused ? "#800020" : "#888"}
-        fill={focused ? "#800020" : "#888"}
+        {...(!noFill && { fill: focused ? "#800020" : "#888" })}
       />
       {focused && (
         <Text className="text-base text-[#800020] font-semibold ml-2">
@@ -30,7 +23,6 @@ function TabIcon({ focused, Icon, title }: any) {
 }
 
 const TabLayout = () => {
-  const cartTotal = useSelector((state: RootState) => state.cart.cart.length);
   return (
     <Tabs
       screenOptions={{
@@ -41,40 +33,38 @@ const TabLayout = () => {
         name="index"
         options={{
           headerShown: false,
-          title: "Home",
+          title: "Deliveries",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} Icon={LayoutDashboard} title="Home" />
+            <TabIcon focused={focused} Icon={BikeIcon} title="Deliveries" />
           ),
         }}
       />
       <Tabs.Screen
-        name="search"
+        name="history"
         options={{
           headerShown: false,
-          title: "Search",
+          title: "Histories",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} Icon={TextSearch} title="Search" />
+            <TabIcon
+              focused={focused}
+              noFill={true}
+              Icon={History}
+              title="Histories"
+            />
           ),
         }}
       />
       <Tabs.Screen
-        name="cart"
+        name="wallet"
         options={{
           headerShown: false,
-          title: "Cart",
+          title: "Wallet",
           tabBarIcon: ({ focused }) => (
-            <View className="relative">
-              <TabIcon focused={focused} Icon={ShoppingCart} title="Cart" />
-              {/* Show badge only if cart is active */}
-              {focused && (
-                <View
-                  style={{ width: 20, height: 20 }}
-                  className="absolute top-4 right-0 bg-[#800020] rounded-full flex-row justify-center items-center"
-                >
-                  <Text className="text-white text-[8px]">{cartTotal}</Text>
-                </View>
-              )}
-            </View>
+            <TabIcon
+              focused={focused}
+              Icon={Wallet}
+              title="Wallet"
+            />
           ),
         }}
       />

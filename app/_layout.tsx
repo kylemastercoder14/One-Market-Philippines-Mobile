@@ -2,8 +2,11 @@ import "@/global.css";
 import React, { useEffect } from "react";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider/";
 import { Stack } from "expo-router";
-import { StatusBar } from "react-native";
+import { ActivityIndicator, StatusBar } from "react-native";
 import * as NavigationBar from "expo-navigation-bar";
+import { Provider } from "react-redux";
+import { store, persistor } from "@/helpers/cart-store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const RootLayout = () => {
   useEffect(() => {
@@ -27,26 +30,38 @@ const RootLayout = () => {
     };
   }, []);
   return (
-    <GluestackUIProvider>
-      <StatusBar />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="products/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="store/[id]" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="sign-in/index"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="categories/[slug]"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="categories/[slug]/[subSlug]"
-          options={{ headerShown: false }}
-        />
-      </Stack>
-    </GluestackUIProvider>
+    <Provider store={store}>
+      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+        <GluestackUIProvider>
+          <StatusBar />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="rider" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="products/[id]"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="store/[id]" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="sign-in/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="categories/[slug]"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="categories/[slug]/[subSlug]"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="order/[id]"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+        </GluestackUIProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 

@@ -13,7 +13,7 @@ import SearchBar from "@/components/globals/search-bar";
 import CategoryTab from "@/components/globals/category-tab";
 import SubCategoryTag from "@/components/globals/sub-category-tab";
 import ProductList from "@/components/globals/product-list";
-import EncryptedBanner from '@/components/globals/encrypted-banner';
+import EncryptedBanner from "@/components/globals/encrypted-banner";
 
 const SubCategoryPage = () => {
   const { slug, subSlug } = useLocalSearchParams();
@@ -48,11 +48,11 @@ const SubCategoryPage = () => {
             <SearchBar />
             <EncryptedBanner />
             <CategoryTab slug={categorySlug} />
+            <SubCategoryTag
+              categorySlug={categorySlug}
+              subCategorySlug={subCategorySlug}
+            />
           </View>
-          <SubCategoryTag
-            categorySlug={categorySlug}
-            subCategorySlug={subCategorySlug}
-          />
         </View>
 
         {/* Product List - Shows products based on category & subcategory */}

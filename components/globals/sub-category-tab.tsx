@@ -71,7 +71,7 @@ const SubCategoryTag = ({
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerClassName="flex items-center"
+          contentContainerClassName="flex items-center mt-2"
         >
           {/* Dynamic Subcategories */}
           {subCategories.map((subCategory) => {

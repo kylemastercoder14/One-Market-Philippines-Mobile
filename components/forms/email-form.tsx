@@ -13,9 +13,9 @@ import {
 import { Input, InputField } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import axios from "axios";
-import { useRouter } from 'expo-router';
+import { useRouter } from "expo-router";
 
-const EmailForm = ({handleClose}: {handleClose: () => void;}) => {
+const EmailForm = ({ handleClose }: { handleClose: () => void }) => {
   const router = useRouter();
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
@@ -37,7 +37,11 @@ const EmailForm = ({handleClose}: {handleClose: () => void;}) => {
       //   console.log("Token:", response.data.token);
       // }
       Alert.alert("Success", "Login successful!");
-      router.push("/")
+      if (inputValue === "kyleandrelim17@gmail.com") {
+        router.push("/rider");
+      } else {
+        router.push("/");
+      }
       handleClose();
     } catch (error) {
       console.error("Login failed:", error);
